@@ -1,18 +1,29 @@
+import Button from "../../components/button/button.component";
+import SignUpForm from "../../components/sign-up-form/sign-up-form.component";
 import {
-  signInWithGooglePopup,
   createUserDocumentFromAuth,
-} from "../../utils/filebase/firebase.util";
+  signInWithGooglePopup,
+} from "../../utils/filebase/firebase.utils";
 
 const SignIn = () => {
   const logGoogleUser = async () => {
-    const { user } = await signInWithGooglePopup();
-    const userDocRef = await createUserDocumentFromAuth(user);
+    try {
+      const { user } = await signInWithGooglePopup();
+      await createUserDocumentFromAuth(user);
+    } catch (error) {
+      if (error.code === "auth/popup-closed-by-user") return;
+      else console.log(error);
+    }
   };
 
   return (
     <div>
       <h1>登陆页面</h1>
-      <button onClick={logGoogleUser}>使用谷歌账户登陆</button>
+      <Button buttonType="google" onClick={logGoogleUser}>
+        使用谷歌账户登陆
+      </Button>
+
+      <SignUpForm />
     </div>
   );
 };
