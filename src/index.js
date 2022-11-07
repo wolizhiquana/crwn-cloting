@@ -6,6 +6,7 @@ import "./index.scss";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./routers/home/home.component";
 import Navigation from "./routers/navigation/navigation.components";
+import SignIn from "./routers/sign-in/sign-in.component";
 
 const Shop = () => {
   return <p>shop page</p>;
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "shop", element: <Shop /> },
+      { path: "sign-in", element: <SignIn /> },
     ],
   },
 ]);
