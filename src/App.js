@@ -1,13 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { UserProvider } from "./context/user.context";
 
+import { CartProvider } from "./context/cart.context";
+import { ProductsProvider } from "./context/products.context";
+import { UserProvider } from "./context/user.context";
 import Authentication from "./routers/authentication/authentication.component";
 import Home from "./routers/home/home.component";
 import Navigation from "./routers/navigation/navigation.components";
-
-const Shop = () => {
-  return <p>shop page</p>;
-};
+import Shop from "./routers/shop/shop.component";
 
 const router = createBrowserRouter([
   {
@@ -24,7 +23,11 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <UserProvider>
-      <RouterProvider router={router} />
+      <ProductsProvider>
+        <CartProvider>
+          <RouterProvider router={router} />
+        </CartProvider>
+      </ProductsProvider>
     </UserProvider>
   );
 };
