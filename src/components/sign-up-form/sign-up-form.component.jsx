@@ -6,7 +6,7 @@ import {
 } from "../../utils/filebase/firebase.utils";
 import Button from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
-import "./sign-up-form-styles.scss";
+import { SignUpContainer } from "./sign-up-form.styles";
 
 const defaultFormFields = {
   displayName: "",
@@ -53,7 +53,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <div className="sign-up-container">
+    <SignUpContainer>
       <h2>还没有账户?</h2>
       <span>使用邮箱和密码注册</span>
       <form onSubmit={handleSubmit}>
@@ -91,7 +91,7 @@ const SignUpForm = () => {
         />
         <Button type="submit">注册</Button>
       </form>
-    </div>
+    </SignUpContainer>
   );
 };
 

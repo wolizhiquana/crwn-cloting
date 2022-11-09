@@ -1,9 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import { CartProvider } from "./context/cart.context";
-import { ProductsProvider } from "./context/products.context";
+import { CategoriesProvider } from "./context/categories.context";
 import { UserProvider } from "./context/user.context";
 import Authentication from "./routers/authentication/authentication.component";
+import Category, {
+  loader as CategoryLoader,
+} from "./routers/category/category.component";
 import Checkout from "./routers/checkout/checkout.component";
 import Home from "./routers/home/home.component";
 import Navigation from "./routers/navigation/navigation.components";
@@ -15,7 +18,15 @@ const router = createBrowserRouter([
     element: <Navigation />,
     children: [
       { index: true, element: <Home /> },
-      { path: "shop", element: <Shop /> },
+      {
+        path: "shop",
+        element: <Shop />,
+      },
+      {
+        path: "shop/:category",
+        loader: CategoryLoader,
+        element: <Category />,
+      },
       { path: "authentication", element: <Authentication /> },
       { path: "checkout", element: <Checkout /> },
     ],
@@ -25,11 +36,11 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <UserProvider>
-      <ProductsProvider>
+      <CategoriesProvider>
         <CartProvider>
           <RouterProvider router={router} />
         </CartProvider>
-      </ProductsProvider>
+      </CategoriesProvider>
     </UserProvider>
   );
 };
