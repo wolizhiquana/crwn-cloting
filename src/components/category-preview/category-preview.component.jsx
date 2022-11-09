@@ -9,7 +9,7 @@ const CategoryPreview = ({ title, products }) => {
   return (
     <CategoryPreviewContainer>
       <h2>
-        <Title>{title.toLowerCase()}</Title>
+        <Title to={title}>{title.toLowerCase()}</Title>
       </h2>
 
       <Preview>
