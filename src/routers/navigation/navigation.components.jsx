@@ -1,12 +1,12 @@
-import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
 
 import { ReactComponent as Crwnlogo } from "../../assets/crown.svg";
 import CartDropdown from "../../components/cart-dropdown/cart-dropdown.component";
 import CartIcon from "../../components/cart-icon/cart-icon.components";
-import { CartContext } from "../../context/cart.context";
-import { UserContext } from "../../context/user.context";
-import { signOutUser } from "../../utils/filebase/firebase.utils";
+import { selectIsCartOpen } from "../../store/cart/cart.selector";
+import { signOutStart } from "../../store/user/user.action";
+import { selectCurrentUser } from "../../store/user/user.selector";
 import {
   LogoContainer,
   NavigationContainer,
@@ -15,8 +15,12 @@ import {
 } from "./navigation.styles.jsx";
 
 const Navigation = () => {
-  const { currentUser } = useContext(UserContext);
-  const { isCartOpen } = useContext(CartContext);
+  const dispatch = useDispatch();
+
+  const currentUser = useSelector(selectCurrentUser);
+  const isCartOpen = useSelector(selectIsCartOpen);
+
+  const signOutUser = () => dispatch(signOutStart());
 
   return (
     <>
@@ -33,7 +37,7 @@ const Navigation = () => {
               注销
             </NavLink>
           ) : (
-            <NavLink to="/authentication">登陆</NavLink>
+            <NavLink to="/auth">登陆</NavLink>
           )}
 
           <CartIcon />

@@ -1,47 +1,30 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Route, Routes } from "react-router-dom";
 
-import { CartProvider } from "./context/cart.context";
-import { CategoriesProvider } from "./context/categories.context";
-import { UserProvider } from "./context/user.context";
 import Authentication from "./routers/authentication/authentication.component";
-import Category, {
-  loader as CategoryLoader,
-} from "./routers/category/category.component";
 import Checkout from "./routers/checkout/checkout.component";
 import Home from "./routers/home/home.component";
 import Navigation from "./routers/navigation/navigation.components";
 import Shop from "./routers/shop/shop.component";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navigation />,
-    children: [
-      { index: true, element: <Home /> },
-      {
-        path: "shop",
-        element: <Shop />,
-      },
-      {
-        path: "shop/:category",
-        loader: CategoryLoader,
-        element: <Category />,
-      },
-      { path: "authentication", element: <Authentication /> },
-      { path: "checkout", element: <Checkout /> },
-    ],
-  },
-]);
+import { checkUserSession } from "./store/user/user.action";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkUserSession());
+  }, []);
+
   return (
-    <UserProvider>
-      <CategoriesProvider>
-        <CartProvider>
-          <RouterProvider router={router} />
-        </CartProvider>
-      </CategoriesProvider>
-    </UserProvider>
+    <Routes>
+      <Route path="/" element={<Navigation />}>
+        <Route index element={<Home />} />
+        <Route path="shop/*" element={<Shop />} />
+        <Route path="auth" element={<Authentication />} />
+        <Route path="checkout" element={<Checkout />} />
+      </Route>
+    </Routes>
   );
 };
 

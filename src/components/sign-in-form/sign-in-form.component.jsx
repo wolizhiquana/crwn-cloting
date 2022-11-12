@@ -1,12 +1,13 @@
 import { useState } from "react";
-
+import { useDispatch } from "react-redux";
 import {
-  signInAuthUserWithEmailAndPassword,
-  signInWithGooglePopup,
-} from "../../utils/filebase/firebase.utils";
+  emailSignInStart,
+  googleSignInStart,
+} from "../../store/user/user.action";
+
 import Button, { BUTTON_TYPE_CLASSED } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
-import { SignInContainer, ButtonsContainer } from "./sign-in-form.styles";
+import { ButtonsContainer, SignInContainer } from "./sign-in-form.styles";
 
 const defaultFormFields = {
   email: "",
@@ -15,6 +16,7 @@ const defaultFormFields = {
 
 const SignInForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
+  const dispatch = useDispatch();
   const { email, password } = formFields;
 
   const resetFormFields = () => {
@@ -31,29 +33,15 @@ const SignInForm = () => {
     event.preventDefault();
 
     try {
-      await signInAuthUserWithEmailAndPassword(email, password);
+      dispatch(emailSignInStart(email, password));
       resetFormFields();
     } catch (error) {
-      switch (error.code) {
-        case "auth/wrong-password":
-          alert("邮箱或密码错误");
-          break;
-        case "auth/user-not-found":
-          alert("用户不存在");
-          break;
-        default:
-          console.log(error);
-      }
+      console.log("user sign in faled", error);
     }
   };
 
   const signInWithGoogle = async () => {
-    try {
-      await signInWithGooglePopup();
-    } catch (error) {
-      if (error.code === "auth/popup-closed-by-user") return;
-      else console.log(error);
-    }
+    dispatch(googleSignInStart());
   };
 
   return (

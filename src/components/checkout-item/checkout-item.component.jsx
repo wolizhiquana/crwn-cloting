@@ -1,5 +1,11 @@
-import { useContext } from "react";
-import { CartContext } from "../../context/cart.context";
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  addItemToCart,
+  clearItemFromCart,
+  removeItemFromCart,
+} from "../../store/cart/cart.action";
+import { selectCartItems } from "../../store/cart/cart.selector";
 import {
   Arrow,
   BaseSpan,
@@ -12,12 +18,16 @@ import {
 
 const CheckoutItem = ({ cartItem }) => {
   const { name, imageUrl, price, quantity } = cartItem;
-  const { addItemToCart, removeItemFromCart, clearItemFromCart } =
-    useContext(CartContext);
+  const cartItems = useSelector(selectCartItems);
+  const dispatch = useDispatch();
 
-  const addItemHandler = () => addItemToCart(cartItem);
-  const removeItemHandler = () => removeItemFromCart(cartItem);
-  const clearItemHandler = () => clearItemFromCart(cartItem);
+  const addItemHandler = () => dispatch(addItemToCart(cartItems, cartItem));
+
+  const removeItemHandler = () =>
+    dispatch(removeItemFromCart(cartItems, cartItem));
+
+  const clearItemHandler = () =>
+    dispatch(clearItemFromCart(cartItems, cartItem));
 
   return (
     <CheckoutItemContainer>
@@ -30,7 +40,7 @@ const CheckoutItem = ({ cartItem }) => {
         <Value>{quantity}</Value>
         <Arrow onClick={addItemHandler}>&#10095;</Arrow>
       </Quantity>
-      <BaseSpan> {price}</BaseSpan>
+      <BaseSpan>{`$${price * quantity}`}</BaseSpan>
       <RemoveButton onClick={clearItemHandler}>&#10005;</RemoveButton>
     </CheckoutItemContainer>
   );
