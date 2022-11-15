@@ -9,8 +9,6 @@ import App from "./App";
 import { persistor, store } from "./store/store";
 import { stripePromise } from "./utils/stripe/stripe.utils";
 
-import "./index.scss";
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>

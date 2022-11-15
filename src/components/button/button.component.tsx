@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, forwardRef, Ref } from "react";
+import { ComponentPropsWithoutRef } from "react";
 import {
   BaseButton,
   ButtonSpinner,
