@@ -1,9 +1,4 @@
 import styled from "styled-components";
-import {
-  BaseButton,
-  GoogleSignInButton,
-  InveredButton,
-} from "../button/button.styles";
 
 export const ProductCardContainer = styled.div`
   width: 100%;
@@ -20,9 +15,7 @@ export const ProductCardContainer = styled.div`
     margin-bottom: 5px;
   }
 
-  ${BaseButton},
-  ${GoogleSignInButton},
-  ${InveredButton} {
+  button {
     width: 80%;
     opacity: 0.7;
     position: absolute;
@@ -42,11 +35,28 @@ export const ProductCardContainer = styled.div`
   }
 
   @media screen and (max-width: 800px) {
-    ${BaseButton},
-    ${GoogleSignInButton},
-    ${InveredButton} {
-      display: flex;
+    width: 40vw;
+
+    button {
+      display: block;
+      opacity: 0.9;
+      min-width: unset;
+      padding: 0 10px;
+
+      &:hover {
+        img {
+          opacity: unset;
+        }
+
+        button {
+          opacity: unset;
+        }
+      }
     }
+  }
+
+  @media screen and (max-width: 400px) {
+    width: 80vw;
   }
 `;
 
